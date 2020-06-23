@@ -1,9 +1,13 @@
 package edu.cnm.deepive.quotes.controller;
 
 import edu.cnm.deepive.quotes.model.entity.Quote;
+import edu.cnm.deepive.quotes.model.entity.Tag;
 import edu.cnm.deepive.quotes.service.QuoteRepository;
 import edu.cnm.deepive.quotes.service.SourceRepository;
+import edu.cnm.deepive.quotes.service.TagRepository;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,12 +25,14 @@ public class QuoteController {
 
   private final QuoteRepository quoteRepository;
   private final SourceRepository sourceRepository;
+  private final TagRepository tagRepository;
 
   @Autowired
   public QuoteController(QuoteRepository quoteRepository,
-      SourceRepository sourceRepository) {
+      SourceRepository sourceRepository, TagRepository tagRepository) {
     this.quoteRepository = quoteRepository;
     this.sourceRepository = sourceRepository;
+    this.tagRepository = tagRepository;
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,6 +51,12 @@ public class QuoteController {
           ).orElseThrow(NoSuchElementException::new)
       );
     }
+
+    List<Tag> resolvedTags = quote.getTags().stream()
+        .map((tag) -> (tag.getId() == null) ? tag : tagRepository.findById(tag.getId()).orElseThrow(NoSuchElementException::new))
+        .collect(Collectors.toList());
+    quote.getTags().clear();
+    quote.getTags().addAll(resolvedTags);
     return quoteRepository.save(quote);
 
   }
