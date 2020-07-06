@@ -1,10 +1,10 @@
-package edu.cnm.deepive.quotes.controller;
+package edu.cnm.deepdive.quotes.controller;
 
-import edu.cnm.deepive.quotes.model.entity.Quote;
-import edu.cnm.deepive.quotes.model.entity.Tag;
-import edu.cnm.deepive.quotes.service.QuoteRepository;
-import edu.cnm.deepive.quotes.service.SourceRepository;
-import edu.cnm.deepive.quotes.service.TagRepository;
+import edu.cnm.deepdive.quotes.model.entity.Tag;
+import edu.cnm.deepdive.quotes.service.SourceRepository;
+import edu.cnm.deepdive.quotes.service.TagRepository;
+import edu.cnm.deepdive.quotes.model.entity.Quote;
+import edu.cnm.deepdive.quotes.service.QuoteRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -29,7 +29,8 @@ public class QuoteController {
 
   @Autowired
   public QuoteController(QuoteRepository quoteRepository,
-      SourceRepository sourceRepository, TagRepository tagRepository) {
+      SourceRepository sourceRepository,
+      TagRepository tagRepository) {
     this.quoteRepository = quoteRepository;
     this.sourceRepository = sourceRepository;
     this.tagRepository = tagRepository;
@@ -53,7 +54,8 @@ public class QuoteController {
     }
 
     List<Tag> resolvedTags = quote.getTags().stream()
-        .map((tag) -> (tag.getId() == null) ? tag : tagRepository.findById(tag.getId()).orElseThrow(NoSuchElementException::new))
+        .map((tag) -> (tag.getId() == null) ?
+            tag : tagRepository.findById(tag.getId()).orElseThrow(NoSuchElementException::new))
         .collect(Collectors.toList());
     quote.getTags().clear();
     quote.getTags().addAll(resolvedTags);
@@ -63,8 +65,8 @@ public class QuoteController {
 
   @GetMapping(value = "/{id:\\d+}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Quote get(@PathVariable long id) {
-    return quoteRepository.findById(id)
-        .orElseThrow(() -> new NoSuchElementException());
+    return quoteRepository.findById(id).orElseThrow(NoSuchElementException::new);
+  }
 
   }
-}
+

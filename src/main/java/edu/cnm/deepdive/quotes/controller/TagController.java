@@ -1,10 +1,10 @@
-package edu.cnm.deepive.quotes.controller;
+package edu.cnm.deepdive.quotes.controller;
 
 
-import edu.cnm.deepive.quotes.model.entity.Quote;
-import edu.cnm.deepive.quotes.model.entity.Tag;
-import edu.cnm.deepive.quotes.service.QuoteRepository;
-import edu.cnm.deepive.quotes.service.TagRepository;
+import edu.cnm.deepdive.quotes.model.entity.Tag;
+import edu.cnm.deepdive.quotes.service.TagRepository;
+import edu.cnm.deepdive.quotes.model.entity.Quote;
+import edu.cnm.deepdive.quotes.service.QuoteRepository;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

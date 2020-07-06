@@ -1,8 +1,8 @@
-package edu.cnm.deepive.quotes.service;
+package edu.cnm.deepdive.quotes.service;
 
-import edu.cnm.deepive.quotes.model.entity.Quote;
-import edu.cnm.deepive.quotes.model.entity.Source;
-import edu.cnm.deepive.quotes.model.entity.Tag;
+import edu.cnm.deepdive.quotes.model.entity.Quote;
+import edu.cnm.deepdive.quotes.model.entity.Source;
+import edu.cnm.deepdive.quotes.model.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface QuoteRepository extends JpaRepository<Quote, Long> {

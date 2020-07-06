@@ -1,4 +1,4 @@
-package edu.cnm.deepive.quotes.view;
+package edu.cnm.deepdive.quotes.view;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Date;

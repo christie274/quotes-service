@@ -1,8 +1,8 @@
-package edu.cnm.deepive.quotes.model.entity;
+package edu.cnm.deepdive.quotes.model.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import edu.cnm.deepive.quotes.view.FlatQuote;
-import edu.cnm.deepive.quotes.view.FlatTag;
+import edu.cnm.deepdive.quotes.view.FlatQuote;
+import edu.cnm.deepdive.quotes.view.FlatSource;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,12 +23,16 @@ import org.springframework.lang.NonNull;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
-public class Tag implements FlatTag {
+public class Source implements FlatSource {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "tag_id", nullable = false, updatable = false)
+  @Column(name = "source_id", nullable = false, updatable = false)
   private Long id;
+
+  @NonNull
+  @Column(length = 100, nullable = false, unique = true)
+  private String name;
 
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
@@ -40,31 +44,18 @@ public class Tag implements FlatTag {
   @Column(nullable = false)
   private Date updated;
 
-  @NonNull
-  @Column(nullable = false, unique = true)
-  private String name;
+@OneToMany(
+    fetch = FetchType.LAZY,
+    mappedBy = "source",
+    cascade ={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
 
-  @ManyToMany(fetch = FetchType.LAZY,
-  mappedBy = "tags",
-      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
-  )
-  @OrderBy("text ASC")
-  @JsonSerialize(contentAs = FlatQuote.class)
-  private List<Quote> quotes = new LinkedList<>();
+@OrderBy("text ASC")
+@JsonSerialize(contentAs = FlatQuote.class)
+private List<Quote> quotes = new LinkedList<>();
 
-  @Override
+@Override
   public Long getId() {
     return id;
-  }
-
-  @Override
-  public Date getCreated() {
-    return created;
-  }
-
-  @Override
-  public Date getUpdated() {
-    return updated;
   }
 
   @Override
@@ -75,6 +66,16 @@ public class Tag implements FlatTag {
 
   public void setName(@NonNull String name) {
     this.name = name;
+  }
+
+  @Override
+  public Date getCreated() {
+    return created;
+  }
+
+  @Override
+  public Date getUpdated() {
+    return updated;
   }
 
   public List<Quote> getQuotes() {

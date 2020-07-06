@@ -1,8 +1,8 @@
-package edu.cnm.deepive.quotes.model.entity;
+package edu.cnm.deepdive.quotes.model.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import edu.cnm.deepive.quotes.view.FlatQuote;
-import edu.cnm.deepive.quotes.view.FlatSource;
+import edu.cnm.deepdive.quotes.view.FlatQuote;
+import edu.cnm.deepdive.quotes.view.FlatTag;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,16 +23,12 @@ import org.springframework.lang.NonNull;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
-public class Source implements FlatSource {
+public class Tag implements FlatTag {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "source_id", nullable = false, updatable = false)
+  @Column(name = "tag_id", nullable = false, updatable = false)
   private Long id;
-
-  @NonNull
-  @Column(length = 100, nullable = false, unique = true)
-  private String name;
 
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
@@ -44,28 +40,21 @@ public class Source implements FlatSource {
   @Column(nullable = false)
   private Date updated;
 
-@OneToMany(
-    fetch = FetchType.LAZY,
-    mappedBy = "source",
-    cascade ={CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
+  @NonNull
+  @Column(nullable = false, unique = true)
+  private String name;
 
-@OrderBy("text ASC")
-@JsonSerialize(contentAs = FlatQuote.class)
-private List<Quote> quotes = new LinkedList<>();
-
-@Override
-  public Long getId() {
-    return id;
-  }
+  @ManyToMany(fetch = FetchType.LAZY,
+  mappedBy = "tags",
+      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+  )
+  @OrderBy("text ASC")
+  @JsonSerialize(contentAs = FlatQuote.class)
+  private List<Quote> quotes = new LinkedList<>();
 
   @Override
-  @NonNull
-  public String getName() {
-    return name;
-  }
-
-  public void setName(@NonNull String name) {
-    this.name = name;
+  public Long getId() {
+    return id;
   }
 
   @Override
@@ -76,6 +65,16 @@ private List<Quote> quotes = new LinkedList<>();
   @Override
   public Date getUpdated() {
     return updated;
+  }
+
+  @Override
+  @NonNull
+  public String getName() {
+    return name;
+  }
+
+  public void setName(@NonNull String name) {
+    this.name = name;
   }
 
   public List<Quote> getQuotes() {

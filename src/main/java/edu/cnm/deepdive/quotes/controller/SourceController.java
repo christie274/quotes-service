@@ -1,9 +1,9 @@
-package edu.cnm.deepive.quotes.controller;
+package edu.cnm.deepdive.quotes.controller;
 
-import edu.cnm.deepive.quotes.model.entity.Quote;
-import edu.cnm.deepive.quotes.model.entity.Source;
-import edu.cnm.deepive.quotes.service.QuoteRepository;
-import edu.cnm.deepive.quotes.service.SourceRepository;
+import edu.cnm.deepdive.quotes.model.entity.Quote;
+import edu.cnm.deepdive.quotes.model.entity.Source;
+import edu.cnm.deepdive.quotes.service.QuoteRepository;
+import edu.cnm.deepdive.quotes.service.SourceRepository;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

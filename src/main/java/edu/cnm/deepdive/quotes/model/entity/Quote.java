@@ -1,9 +1,9 @@
-package edu.cnm.deepive.quotes.model.entity;
+package edu.cnm.deepdive.quotes.model.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import edu.cnm.deepive.quotes.view.FlatQuote;
-import edu.cnm.deepive.quotes.view.FlatSource;
-import edu.cnm.deepive.quotes.view.FlatTag;
+import edu.cnm.deepdive.quotes.view.FlatQuote;
+import edu.cnm.deepdive.quotes.view.FlatSource;
+import edu.cnm.deepdive.quotes.view.FlatTag;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
