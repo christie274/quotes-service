@@ -50,7 +50,7 @@ public class Quote implements FlatQuote {
 
   @ManyToOne(fetch = FetchType.EAGER,
       cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinColumn(name = "source_id", nullable = false)
+  @JoinColumn(name = "source_id")
   @JsonSerialize(as = FlatSource.class)
   private Source source;
 
@@ -83,8 +83,7 @@ public class Quote implements FlatQuote {
     return text;
   }
 
-  @NonNull
-  public void setText(String text) {
+  public void setText(@NonNull String text) {
     this.text = text;
   }
 
@@ -99,4 +98,5 @@ public class Quote implements FlatQuote {
   public List<Tag> getTags() {
     return tags;
   }
+
 }
