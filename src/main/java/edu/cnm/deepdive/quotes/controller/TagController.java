@@ -7,6 +7,7 @@ import edu.cnm.deepdive.quotes.model.entity.Quote;
 import edu.cnm.deepdive.quotes.service.QuoteRepository;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/tags")
+@ExposesResourceFor(Tag.class)
+
 public class TagController {
 
   private final TagRepository tagRepository;
