@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.quotes.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import edu.cnm.deepdive.quotes.view.FlatQuote;
 import edu.cnm.deepdive.quotes.view.FlatSource;
@@ -32,7 +33,11 @@ import org.springframework.stereotype.Component;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
-@Component
+@Component@JsonIgnoreProperties(
+    value = {"id", "created", "updated", "href"},
+    allowGetters = true,
+    ignoreUnknown = true
+)
 public class Quote implements FlatQuote {
 
   private static EntityLinks entityLinks;
@@ -61,6 +66,11 @@ public class Quote implements FlatQuote {
   @JoinColumn(name = "source_id")
   @JsonSerialize(as = FlatSource.class)
   private Source source;
+
+  @ManyToOne(fetch = FetchType.EAGER,
+      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinColumn(name = "contributor_id")
+  private User contributor;
 
   @ManyToMany(fetch = FetchType.EAGER,
       cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -117,7 +127,7 @@ public class Quote implements FlatQuote {
 
   private void setEntityLinks(
       @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") EntityLinks entityLinks) {
-    Quote.entityLinks = entityLinks; //TODO Adjust when copying to other classes.
+    Quote.entityLinks = entityLinks;
   }
 
   @Override
