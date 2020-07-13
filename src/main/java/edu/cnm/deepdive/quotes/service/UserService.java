@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.quotes.service;
 
 import edu.cnm.deepdive.quotes.model.entity.User;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,14 @@ public class UserService {
     return userRepository.findFirstByOauthKey(oauthKey)
         .orElseGet(() -> {
           User user = new User();
-          user.setDisplayName(oauthKey);
+          user.setOauthKey(oauthKey);
           user.setDisplayName(displayName);
           return userRepository.save(user);
         });
   }
+
+  public Optional<User> get(Long id) {
+    return userRepository.findById(id);
+  }
+
 }
